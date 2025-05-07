@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package dcb.inference;
+
+option java_package = "com.yourorg.dcb.inference";
+option go_package = "github.com/yourorg/dcb-inference/proto;inference";
+
+message InferenceRequest {
+  string request_id = 1;
+  string model_name = 2;
+  repeated int64 input_ids = 3;
+  int32 max_length = 4;
+  int32 priority = 5;
+  bool enable_kv_prune = 6;
+  int32 kv_prune_k = 7;
+  bool enable_speculative = 8;
+  int32 speculative_steps = 9;
+}
+
+message InferenceResponse {
+  string request_id = 1;
+  int64 token = 2;
+  bool is_last = 3;
+}
+
+message BatchRequest {
+  repeated InferenceRequest requests = 1;
+}
+
+message BatchResponse {
+  repeated InferenceResponse responses = 1;
+}
+
+service InferenceService {
+  rpc StreamInfer(stream InferenceRequest) returns (stream InferenceResponse);
+  rpc BatchInfer(BatchRequest) returns (BatchResponse);
+}
