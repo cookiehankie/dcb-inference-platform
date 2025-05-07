@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+grpcio
+grpcio-tools
+torch
+neuronx-distributed-inference
+neuron-cc
+prometheus-client
+pyyaml
